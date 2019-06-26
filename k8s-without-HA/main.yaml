@@ -1,0 +1,25 @@
+- name: Deploy the Kubernetes Cluster Infrastructure
+  hosts: all
+  environment:
+    OS_PROJECT_DOMAIN_NAME: 
+    OS_USER_DOMAIN_NAME: 
+    OS_PROJECT_NAME: 
+    OS_USERNAME: 
+    OS_PASSWORD: 
+    OS_AUTH_URL: 
+    OS_IDENTITY_API_VERSION: 
+    OS_IMAGE_API_VERSION: 
+  tasks:
+  - name: Include Variables from vars.yaml
+    include_vars:
+      file: vars.yaml
+
+  - import_role:
+      name: k8s-stack-create
+
+  - name: list the ip address
+    shell: openstack stack output show -f value -c output_value kubernetes ip_address
+    register: result
+
+  - debug:
+      var: result.stdout_lines
