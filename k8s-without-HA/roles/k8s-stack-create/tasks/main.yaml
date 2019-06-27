@@ -1,0 +1,35 @@
+- name: Check if {{ stack_name }} stack exists
+  command: "openstack stack show {{ stack_name }}"
+  ignore_errors: yes
+  register: stack_check
+
+- name: Create heat stack {{ stack_name }}
+  stack_create:
+    name: "{{ stack_name }}"
+    template: "{{ heat_template_path }}"
+    parameters:
+      external_network: "{{ external_network }}"
+      service_network: "{{ service_network }}"
+      image: "{{ image }}"
+      master_flavor: "{{ master_flavor }}"
+      master_hostname: "{{ master_hostname }}"
+      node_count: "{{ node_count}}"
+      node_flavor: "{{ node_flavor }}"
+  register: stack_output
+  when: stack_check.rc != 0
+
+- name: Register stack output
+  command: openstack stack output show -f json -c output_value {{ stack_name }} ip_address
+  register: stack_output_raw
+
+- set_fact:
+    stack_output: "{{ stack_output_raw }}"
+
+- name: Wait 300 seconds for port 22 to become open and contain "OpenSSH"
+  wait_for:
+    port: 22
+    host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
+    search_regex: OpenSSH
+    delay: 10
+  vars:
+    ansible_connection: local
