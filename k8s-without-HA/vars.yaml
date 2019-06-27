@@ -1,0 +1,11 @@
+### OpenStack Instances Setting for deploying kubernetes###
+external_network: external
+service_network: Private-Network-01
+image: kubernetes-1-14-rhel-7
+stack_name: kubernetes
+master_hostname: k8s-master
+master_flavor: kubernetes-small-flavor
+node_flavor: kubernetes-small-flavor
+node_count: 3
+heat_template_path: /tmp/osp/heat-templates/k8s.yaml
+
