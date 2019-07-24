@@ -31,7 +31,7 @@
 
   - debug:
       var: stack_output
-	  
+      
   - name: Add the master to the inventory
     add_host:
       name: "{{ stack_output.master.name }}"
