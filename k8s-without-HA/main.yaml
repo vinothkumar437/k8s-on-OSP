@@ -18,8 +18,47 @@
       name: k8s-stack-create
 
   - name: list the ip address
-    shell: openstack stack output show -f value -c output_value kubernetes ip_address
+    shell: openstack stack output show -f value -c output_value {{ stack_name }} ip_address
     register: result
 
+  - name: print debug
+    debug:
+      msg: "here {{ result.stdout }}"
+
+  - set_fact:
+       stack_output: "{{ (result.stdout|from_json).output_value }}"
+
   - debug:
-      var: result.stdout_lines
+      var: stack_output
+      
+  - name: Add the master to the inventory
+    add_host:
+      name: "{{ stack_output.master.name }}"
+      groups: master,all,k8s
+      ansible_ssh_host: "{{ stack_output.master.address }}"
+
+  - name: Add the nodes to the inventory
+    add_host:
+      name: "{{ item.name }}"
+      groups: nodes,all,k8s
+      ansible_ssh_host: "{{ item.address }}"
+    with_items: "{{ stack_output.nodes.address }}"
+
+- name: configure all
+  hosts: k8s
+  tasks:
+  - import_role:
+      name: k8s-common
+
+- name: configure master
+  hosts: master
+  remote_user: cloud-user
+  tasks:
+  - import_role:
+      name: k8s-master
+
+- name: configure nodes
+  hosts: nodes
+  tasks:
+  - import_role:
+      name: k8s-nodes
