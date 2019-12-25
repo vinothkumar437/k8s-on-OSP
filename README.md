@@ -37,3 +37,6 @@ master_flavor: k8s-master-flavor
 node_flavor: k8s-node-flavor
 node_count: 1
 heat_template_path: /root/k8s-on-OSP/heat-templates/k8s.yaml</pre>
+
+<p>Disable host key checking</p>
+<pre>export ANSIBLE_HOST_KEY_CHECKING=False</pre>
