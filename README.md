@@ -21,5 +21,5 @@ Bangalore, Karnataka, India.<br>
 
 <h3>Step 1: Pre-requisites for the Bastion Host Setup.</h3>
 <ol>
-  <li></li>
+  <li>OpenStack connectivity from the Bastion Host. Tested on OpenStack 13 (Queens).</li>
 </ol>
