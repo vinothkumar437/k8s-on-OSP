@@ -1,36 +1,28 @@
 - name: Deploy the Kubernetes Cluster Infrastructure
   hosts: all
-  environment:
-    OS_PROJECT_DOMAIN_NAME: 
-    OS_USER_DOMAIN_NAME: 
-    OS_PROJECT_NAME: 
-    OS_USERNAME: 
-    OS_PASSWORD: 
-    OS_AUTH_URL: 
-    OS_IDENTITY_API_VERSION: 
-    OS_IMAGE_API_VERSION: 
   tasks:
   - name: Include Variables from vars.yaml
     include_vars:
       file: vars.yaml
 
   - import_role:
-      name: k8s-stack-create
-
+      name: k8s-create
+   
   - name: list the ip address
-    shell: openstack stack output show -f value -c output_value {{ stack_name }} ip_address
+    shell: openstack stack output show -f json -c output_value {{ stack_name }} ip_address
     register: result
 
   - name: print debug
     debug:
       msg: "here {{ result.stdout }}"
 
-  - set_fact:
-       stack_output: "{{ (result.stdout|from_json).output_value }}"
+  - name: set_fact
+    set_fact:
+      stack_output: "{{ (result.stdout|from_json).output_value }}"
 
   - debug:
       var: stack_output
-      
+
   - name: Add the master to the inventory
     add_host:
       name: "{{ stack_output.master.name }}"
@@ -43,22 +35,35 @@
       groups: nodes,all,k8s
       ansible_ssh_host: "{{ item.address }}"
     with_items: "{{ stack_output.nodes.address }}"
-
+	
 - name: configure all
   hosts: k8s
+  gather_facts: yes
+  sudo: yes
   tasks:
   - import_role:
       name: k8s-common
 
-- name: configure master
+- name: configure all
   hosts: master
-  remote_user: cloud-user
+  gather_facts: yes
+  sudo: yes
   tasks:
   - import_role:
       name: k8s-master
 
-- name: configure nodes
+- name: configure all
   hosts: nodes
+  gather_facts: yes
+  sudo: yes
   tasks:
   - import_role:
       name: k8s-nodes
+
+- name: configure all
+  hosts: master
+  gather_facts: yes
+  sudo: yes
+  tasks:
+  - import_role:
+      name: k8s-final
