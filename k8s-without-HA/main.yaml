@@ -35,8 +35,8 @@
       groups: nodes,all,k8s
       ansible_ssh_host: "{{ item.address }}"
     with_items: "{{ stack_output.nodes.address }}"
-	
-- name: configure all
+    
+- name: configure all the nodes
   hosts: k8s
   gather_facts: yes
   sudo: yes
@@ -44,7 +44,7 @@
   - import_role:
       name: k8s-common
 
-- name: configure all
+- name: configure the master
   hosts: master
   gather_facts: yes
   sudo: yes
@@ -52,7 +52,7 @@
   - import_role:
       name: k8s-master
 
-- name: configure all
+- name: configure the nodes
   hosts: nodes
   gather_facts: yes
   sudo: yes
@@ -60,7 +60,7 @@
   - import_role:
       name: k8s-nodes
 
-- name: configure all
+- name: configure the master post installation
   hosts: master
   gather_facts: yes
   sudo: yes
