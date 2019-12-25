@@ -22,3 +22,9 @@ Bangalore, Karnataka, India.<br>
   <li>OpenStack connectivity from the Bastion Node. Tested on OpenStack 13 (Queens).</li>
   <li>Install the Ansible 2.8.x on the Bastion Node.</li>
 </ol>
+
+<h3>Step 2: Deploy k8s Infrastructure using Heat, Install and Configure the k8s using Ansible </h3>
+<ol>
+  <li>Clone Git Repository</li>
+  <pre>https://github.com/vinothkumar437/k8s-on-OSP.git</pre>
+</ol>
