@@ -22,4 +22,5 @@ Bangalore, Karnataka, India.<br>
 <h3>Step 1: Pre-requisites for the Bastion Host Setup</h3>
 <ol>
   <li>OpenStack connectivity from the Bastion Host. Tested on OpenStack 13 (Queens).</li>
+  <li>Install the Ansible 2.8.X on the Bastion Host.</li>
 </ol>
