@@ -18,3 +18,7 @@ Bangalore, Karnataka, India.<br>
 <li><b>Step 3:</b> Install k8s using Ansible.</li>
 <li><b>Step 4:</b> Configure k8s and additional services using Ansible.</li>
 <li><b>Step 5:</b> Accessing k8s dashboard.</li>
+
+<ol>
+  <li><h3>Step 1: Pre-requisites for the bastion host.</h3></li>
+</ol>
