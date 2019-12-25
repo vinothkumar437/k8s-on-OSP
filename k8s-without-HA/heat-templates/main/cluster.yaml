@@ -1,0 +1,103 @@
+- name: Deploy the Kubernetes Cluster Infrastructure
+  hosts: all
+  vars_prompt:
+  - name: stack_name
+    prompt: "Enter the kubernetes cluster name"
+    private: no
+  - name: master_flavor
+    prompt: "Enter the Master Flavor (Example: m1.medium, m1.large)"
+    private: no
+  - name: node_flavor
+    prompt: "Enter the Node Flavor (Example: m1.medium, m1.large)"
+    private: no
+  - name: node_count
+    prompt: "Enter the Node count ( example: greater than 1)"
+    private: no
+  - name: password
+    prompt: "Enter the OpenStack API Password"
+  - name: confirmation
+    prompt: "Do you want to continue (yes/no)?"
+    private: no
+  environment:
+    OS_PROJECT_DOMAIN_NAME: x.x.x.x
+    OS_USER_DOMAIN_NAME: x.x.x.x
+    OS_PROJECT_NAME: x.x.x.x
+    OS_USERNAME: x.x.x.x
+    OS_PASSWORD: x.x.x.x
+    OS_AUTH_URL: x.x.x.x
+    OS_IDENTITY_API_VERSION: 3
+    OS_IMAGE_API_VERSION: 2
+  tasks:
+  - name: Include Variables from vars.yaml
+    include_vars:
+      file: vars.yaml
+
+  - import_role:
+      name: k8s-create
+    when: confirmation | bool
+
+  - name: list the ip address
+    shell: openstack stack output show -f json -c output_value {{ stack_name }} ip_address
+    register: result
+    when: confirmation | bool
+
+  - name: print debug
+    debug:
+      msg: "here {{ result.stdout }}"
+    when: confirmation | bool
+
+  - name: set_fact
+    set_fact:
+      stack_output: "{{ (result.stdout|from_json).output_value }}"
+    when: confirmation | bool
+
+  - debug:
+      var: stack_output
+    when: confirmation | bool
+
+  - name: Add the master to the inventory
+    add_host:
+      name: "{{ stack_output.master.name }}"
+      groups: master,all,k8s
+      ansible_ssh_host: "{{ stack_output.master.address }}"
+    when: confirmation | bool
+
+  - name: Add the nodes to the inventory
+    add_host:
+      name: "{{ item.name }}"
+      groups: nodes,all,k8s
+      ansible_ssh_host: "{{ item.address }}"
+    with_items: "{{ stack_output.nodes.address }}"
+    when: confirmation | bool
+
+- name: configure all
+  hosts: k8s
+  gather_facts: yes
+  sudo: yes
+  tasks:
+  - import_role:
+      name: k8s-common
+
+- name: configure all
+  hosts: master
+  gather_facts: yes
+  sudo: yes
+  tasks:
+  - import_role:
+      name: k8s-master
+
+- name: configure all
+  hosts: nodes
+  gather_facts: yes
+  sudo: yes
+  tasks:
+  - import_role:
+      name: k8s-nodes
+
+- name: configure all
+  hosts: master
+  gather_facts: yes
+  sudo: yes
+  tasks:
+  - import_role:
+      name: k8s-final
