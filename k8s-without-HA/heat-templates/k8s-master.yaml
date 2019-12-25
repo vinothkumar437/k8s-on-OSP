@@ -24,7 +24,7 @@ parameters:
   key_name:
     type: string
     description: keypair to be used
-    default: kubernetes-keypair
+    default: paas-keypair
 
   service_network:
     type: string
@@ -47,18 +47,6 @@ resources:
       key_name: {get_param: key_name}
       networks:
         - port: { get_resource: port }
-      user_data_format: RAW
-      user_data: |
-        #!/bin/sh
-        pvcreate /dev/vdb
-        vgcreate docker-volume-group /dev/vdb
-        lvcreate -n lv-docker -L 50G docker-volume-group
-        mkfs.xfs /dev/docker-volume-group/lv-docker
-        echo "###------------Related to LVM Docker----------------------###" >> /etc/fstab
-        echo "/dev/docker-volume-group/lv-docker    /var/lib/docker     xfs     defaults    0 0" >> /etc/fstab
-        echo "###--------------------END--------------------------------###" >> /etc/fstab
-        mount -a
-
   port:
     type: OS::Neutron::Port
     properties:
@@ -76,21 +64,7 @@ resources:
     type: OS::Cinder::Volume
     properties:
       image: {get_param: image}
-      size: 30
-
-  docker_volume:
-    type: OS::Cinder::Volume
-    properties:
-      size: 200
-      availability_zone: nova
-
-  volume_attachment:
-    type: OS::Cinder::VolumeAttachment
-    properties:
-      volume_id: { get_resource: docker_volume }
-      instance_uuid: { get_resource: server }
-      mountpoint: /dev/vdb
-
+      size: 100
 
 outputs:
   ip_address:
