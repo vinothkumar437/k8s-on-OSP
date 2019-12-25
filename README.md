@@ -40,3 +40,6 @@ heat_template_path: /root/k8s-on-OSP/heat-templates/k8s.yaml</pre>
 
 <p>Disable host key checking</p>
 <pre>export ANSIBLE_HOST_KEY_CHECKING=False</pre>
+
+<p>Deploy k8s Infrastructure using Heat, Install and Configure the k8s using Ansible</p>
+<pre>ansible-playbook main.yaml -e @vars.yml</pre>
