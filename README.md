@@ -13,6 +13,7 @@ Bangalore, Karnataka, India.<br>
 <h3>Deploying Kubernetes on OpenStack</h3>
 <p>Once you have OpenStack environment configured, deploying k8s will be done using a simple three-step phased approach.</p>
 
-<li><b>Step 1:</b> Deploy k8s Infrastructure using Heat and Ansible.</li>
-<li><b>Step 2:</b> Install k8s using Ansible.</li>
-<li><b>Step 3:</b> Configure k8s and additional services using Ansible.</li>
+<li><b>Step 1:</b> Pre-requisites for the bastion host.</li>
+<li><b>Step 2:</b> Deploy k8s Infrastructure using Heat and Ansible.</li>
+<li><b>Step 3:</b> Install k8s using Ansible.</li>
+<li><b>Step 4:</b> Configure k8s and additional services using Ansible.</li>
