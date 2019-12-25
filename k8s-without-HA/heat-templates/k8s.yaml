@@ -57,8 +57,8 @@ outputs:
   ip_address:
     description: The floating IP address of the kubernetes servers
     value:
-      k8s-master:
+      master:
         name: { get_param: master_hostname }
         address: {get_attr: [hosts, master_ip_address]}
-      k8s-nodes:
+      nodes:
         address: {get_attr: [hosts, nodes_ip_address]}
