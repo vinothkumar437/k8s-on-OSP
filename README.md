@@ -19,7 +19,7 @@ Bangalore, Karnataka, India.<br>
 <li><b>Step 4:</b> Configure k8s and additional services using Ansible.</li>
 <li><b>Step 5:</b> Accessing k8s dashboard.</li>
 
-<h3>Step 1: Pre-requisites for the Bastion Host Setup.</h3>
+<h3>Step 1: Pre-requisites for the Bastion Host Setup</h3>
 <ol>
   <li>OpenStack connectivity from the Bastion Host. Tested on OpenStack 13 (Queens).</li>
 </ol>
