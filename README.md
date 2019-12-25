@@ -28,3 +28,12 @@ Bangalore, Karnataka, India.<br>
 <pre>https://github.com/vinothkumar437/k8s-on-OSP.git</pre>
 <p>Change dir to repository</p>
 <pre>cd k8s-on-OSP</pre>
+<p>Configure Parameters</p>
+<pre>cp sample-vars.yaml vars.yaml</pre>
+<pre>
+stack_name: kubernetes
+master_hostname: k8s-master
+master_flavor: k8s-master-flavor
+node_flavor: k8s-node-flavor
+node_count: 1
+heat_template_path: /root/k8s-on-OSP/heat-templates/k8s.yaml</pre>
