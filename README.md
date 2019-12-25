@@ -13,6 +13,6 @@ Bangalore, Karnataka, India.<br>
 <h3>Deploying Kubernetes on OpenStack</h3>
 <p>Once you have OpenStack environment configured, deploying OpenShift will be done using a simple three-step phased approach.</p>
 
-<li><b>Step 1:</b> Deploy k8s Infrastructure using Heat and Ansible.</li><br>
-<li><b>Step 2:</b> Install k8s using Ansible.</li><br>
-<li><b>Step 3:</b> Configure k8s and additional services using Ansible.</li><br>
+<li><b>Step 1:</b> Deploy k8s Infrastructure using Heat and Ansible.</li>
+<li><b>Step 2:</b> Install k8s using Ansible.</li>
+<li><b>Step 3:</b> Configure k8s and additional services using Ansible.</li>
