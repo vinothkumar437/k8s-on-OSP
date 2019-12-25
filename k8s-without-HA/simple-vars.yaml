@@ -1,7 +1,4 @@
 ### OpenStack Instances Setting for deploying kubernetes###
-external_network: external
-service_network: Private-Network-01
-image: kubernetes-1-14-rhel-7
 stack_name: kubernetes
 master_hostname: k8s-master
 master_flavor: kubernetes-small-flavor
