@@ -26,3 +26,5 @@ Bangalore, Karnataka, India.<br>
 <h3>Step 2: Deploy k8s Infrastructure using Heat, Install and Configure the k8s using Ansible </h3>
 <p>Clone Git Repository</p>
 <pre>https://github.com/vinothkumar437/k8s-on-OSP.git</pre>
+<p>Change dir to repository</p>
+<pre>cd k8s-on-OSP</pre>
